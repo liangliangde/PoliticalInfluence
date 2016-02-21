@@ -27,7 +27,7 @@ function initialize() {
         });
         log("totalCandAmount=" + totalCandAmount);
         pacs = pacsHouse;
-        c_house.forEach(function (a) {
+        c_house.forEach(function (a) { //c_house--Contributions_House.csv
             contr.push(a);
         })
     } else if ("senate" == office) {
@@ -47,8 +47,12 @@ function initialize() {
     buildChords();
     var f = 0;
     contr.forEach(function (a) {
-        nodesById[a.CAND_ID].relatedLinks.push(a), chordsById[a.CMTE_ID].relatedLinks.push(a), f += Number(a.TRANSACTION_AMT)
-    }), log("totalContributions=" + f), log("initialize()")
+        nodesById[a.CAND_ID].relatedLinks.push(a);
+        chordsById[a.CMTE_ID].relatedLinks.push(a);
+        f += Number(a.TRANSACTION_AMT);
+    });
+    log("totalContributions=" + f);
+    log("initialize()");
 }
 function node_onMouseOver(a, b) {
     var c = d3.event.pageX + 15;
@@ -123,13 +127,18 @@ function buildChords() {
         var c = {};
         c.index = b, c.label = "null", c.angle = 0, labels.push(c);
         var d = {};
-        d.label = "null", d.source = {}, d.target = {}, chords.push(d)
+        d.label = "null", d.source = {}, d.target = {}, chords.push(d);
     }
-    buf_indexByName = indexByName, indexByName = [], nameByIndex = [], n = 0;
+    buf_indexByName = indexByName;
+    indexByName = [];
+    nameByIndex = [];
+    n = 0;
     var e = 0;
     pacs.forEach(function (a) {
-        a = a.CMTE_ID, a in indexByName || (nameByIndex[n] = a, indexByName[a] = n++)
-    }), pacs.forEach(function (b) {
+        a = a.CMTE_ID;
+        a in indexByName || (nameByIndex[n] = a, indexByName[a] = n++)
+    });
+    pacs.forEach(function (b) {
         var c = indexByName[b.CMTE_ID], d = a[c];
         if (!d) {
             d = a[c] = [];
@@ -334,7 +343,7 @@ linkGroup = [];
 cns = [];
 cands = [];
 pacs = [];
-pacsHouse = [];
+pacsHouse = [];//20 committees
 pacsSentate = [];
 contr = [];
 h_dems = [];
